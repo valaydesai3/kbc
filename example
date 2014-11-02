@@ -1,3 +1,5 @@
+http://www.pontikis.net/blog/top-10-resources-for-jquery-plugins
+
 if (!jQuery) { throw new Error("OTAS Base Visualisation requires jQuery") }
 
 +function ($) {
