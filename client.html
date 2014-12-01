@@ -18,15 +18,22 @@
 			});
 
 			//on new message adds a new message to display
-			socket.on('data', function (data) {
+			
+			socket.on('news', function (data) {
+				console.log(data);				
+				//socket.emit('my other event', { my: 'data' });
+				addMessage(data);
+			});
+			
+			/*socket.on('news', function (data) {
+				debugger;
+				socket.emit('my other event', { my: 'data' }
 				var msg = "";
-				if (data.channel) {
-					msg += 'Channel:' + data.channel + ', ' + data.text; 
-				} else {
-					msg = data.text;
+				if (data) {
+					msg = data; 
 				}
 			addMessage(msg);
-			});
+			});*/
 
 			//updates status to the status div
 			function setStatus(msg) {
@@ -34,15 +41,25 @@
 			}
 
 			//adds message to messages div
-			function addMessage(msg) {
-				var str = '<div class="message">' + msg + '</div><hr>';
-				console.log(str)
-				$('#messages').append(str)
+			function addMessage(msg) {	
+				//debugger;
+				var $xml = $(msg);
+				var html = '';
+				$xml.find("item").each(function() {
+					var $item = $(this);										
+					html += '<li>' +
+                        '<h3><a href ="' + $item.find("link").text() + '" target="_new">' +
+                        $item.find("title").text() + '</a></h3> ' +
+                        '<p>' + $item.find("description").text() + '</p>' +
+                        // '<p>' + $item.attr("c:date") + '</p>' +
+                        '</li>';					
+				});				
+				$('#result').prepend(html);
 }
 		</script>
 	</head>
 	<body>
-		<div id="status"></div><br><br>
-		<div id="messages"></div>
+		<div id="status"></div><br><br>		
+		<ul id="result"></ul>		
 	</body>
 </html>
